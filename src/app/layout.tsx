@@ -1,4 +1,6 @@
 import type { Metadata } from 'next';
+
+import SiteHeader from '@/components/layout/SiteHeader';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -10,7 +12,8 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
   return (
     <html lang="ko">
       <body>
-        <main className="mx-auto w-full max-w-2xl px-4 py-10">{children}</main>
+        <SiteHeader />
+        <main className="mx-auto w-full max-w-4xl px-4 py-10">{children}</main>
       </body>
     </html>
   );

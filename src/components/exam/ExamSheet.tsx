@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import Link from 'next/link';
 
 import QuestionCard from '@/components/exam/QuestionCard';
 import { Button } from '@/components/ui/button';
@@ -19,7 +18,6 @@ export default function ExamSheet({ exam }: ExamSheetProps) {
   const results = exam.questions.map((question, index) =>
     isCorrectResponse(question, responses[index] ?? [])
   );
-  const correctCount = results.filter(Boolean).length;
 
   const handleChangeResponse = (index: number, response: string[]) => {
     setResponses(current => ({ ...current, [index]: response }));
@@ -27,34 +25,17 @@ export default function ExamSheet({ exam }: ExamSheetProps) {
 
   const handleGradeExam = () => {
     setIsGraded(true);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleRetryExam = () => {
     setResponses({});
     setIsGraded(false);
     setAttempt(current => current + 1);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
     <div className="flex flex-col gap-6">
-      <header className="flex flex-col gap-3">
-        <Link
-          href="/"
-          className="text-sm text-muted-foreground hover:text-foreground"
-        >
-          ← 목록으로
-        </Link>
-        <div className="flex items-baseline justify-between gap-4">
-          <h1 className="text-2xl font-bold">{exam.title}</h1>
-          {isGraded ? (
-            <p className="font-semibold">
-              {correctCount} / {exam.questions.length} 정답
-            </p>
-          ) : null}
-        </div>
-      </header>
+      <h1 className="text-2xl font-bold">{exam.title}</h1>
 
       {exam.questions.map((question, index) => (
         <QuestionCard

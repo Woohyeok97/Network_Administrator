@@ -34,7 +34,7 @@ function ExamSection({ title, exams }: ExamSectionProps) {
   return (
     <section className="flex flex-col gap-3">
       <h2 className="font-semibold">{title}</h2>
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
         {exams.map(exam => (
           <Link key={exam.id} href={`/exams/${exam.id}`}>
             <Card className="gap-1 p-4 transition-colors hover:bg-accent">

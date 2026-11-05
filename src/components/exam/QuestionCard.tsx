@@ -10,6 +10,7 @@ import {
   getQuestionTypeLabel,
   type Question
 } from '@/lib/exam';
+import { cn } from '@/lib/utils';
 
 interface QuestionCardProps {
   number: number;
@@ -30,6 +31,7 @@ export default function QuestionCard({
 }: QuestionCardProps) {
   const [isChecked, setIsChecked] = useState(false);
   const [isSolutionVisible, setIsSolutionVisible] = useState(false);
+  const isResultVisible = isGraded || isChecked;
 
   const handleChangeResponse = (nextResponse: string[]) => {
     setIsChecked(false);
@@ -37,31 +39,42 @@ export default function QuestionCard({
   };
 
   return (
-    <Card>
+    <Card
+      className={cn(
+        isResultVisible && 'ring-1',
+        isResultVisible &&
+          (isCorrect
+            ? 'border-success ring-success'
+            : 'border-destructive ring-destructive')
+      )}
+    >
       <div className="flex items-center gap-2">
         <h2 className="font-semibold">문제 {number}</h2>
         <Badge>{getQuestionTypeLabel(question)}</Badge>
         {question.isRestored ? <Badge>복원된 문제</Badge> : null}
-        {isGraded || isChecked ? <GradeMark isCorrect={isCorrect} /> : null}
+        {isResultVisible ? <GradeMark isCorrect={isCorrect} /> : null}
       </div>
 
       <p className="leading-relaxed whitespace-pre-line">{question.prompt}</p>
 
-      <ResponseInput
-        question={question}
-        response={response}
-        disabled={isGraded}
-        onChange={handleChangeResponse}
-      />
+      <div onFocus={() => setIsChecked(false)}>
+        <ResponseInput
+          question={question}
+          response={response}
+          disabled={isGraded}
+          onChange={handleChangeResponse}
+        />
+      </div>
 
       <div className="flex gap-2">
         <Button
           variant="outline"
           size="sm"
           disabled={isGraded}
-          onClick={() => setIsChecked(true)}
+          aria-pressed={isChecked}
+          onClick={() => setIsChecked(current => !current)}
         >
-          정답 확인
+          정답
         </Button>
         <Button
           variant="outline"
@@ -69,7 +82,7 @@ export default function QuestionCard({
           aria-expanded={isSolutionVisible}
           onClick={() => setIsSolutionVisible(current => !current)}
         >
-          정답&해설
+          해설
         </Button>
       </div>
 
