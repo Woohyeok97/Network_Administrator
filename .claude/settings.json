@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(mkdir:*)",
+      "PowerShell(cd:*)",
+      "PowerShell(pnpm:*)",
+      "PowerShell(npx:*)",
+      "PowerShell(curl.exe:*)",
+      "PowerShell(start:*)",
+      "PowerShell(docker:*)",
+      "mcp__playwright"
+    ]
+  },
+  "enabledMcpjsonServers": ["playwright"]
+}
